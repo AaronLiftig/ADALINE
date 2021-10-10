@@ -8,14 +8,14 @@ class ADALINE:
             print()
             for a, b in zip(A, B):
                 count += 1
-                error_E = self.get_error(a, weight, desired_outputs[0])
+                error_E = self.get_error(a, weight, desired_outputs[1])
                 if error_E != 0:
                     weight = self.get_new_weight(a, weight, beta, error_E)
                     weight_count += 1
                     print(f'after A{count}')
                     break
 
-                error_E = self.get_error(b, weight, desired_outputs[1])
+                error_E = self.get_error(b, weight, desired_outputs[0])
                 if error_E != 0:
                     weight = self.get_new_weight(b, weight, beta, error_E)
                     weight_count += 1
