@@ -1,6 +1,14 @@
 class ADALINE:
     def __init__(self, A, B, weight, beta, pattern_rnd_int, weight_rnd_int,
-                 desired_outputs = (-1, 1), max_iter=50):
+                 desired_outputs = (1, -1), max_iter=50):
+        if len(A) > len(B):
+            amount = len(A) - len(B)
+            for i in range(amount):
+                B.append(None)
+        elif len(B) > len(A):
+            amount = len(B) - len(A)
+            for i in range(amount):
+                A.append(None)
         restart = True
         weight_count = 0
         while restart and weight_count <= max_iter - 1:
@@ -9,21 +17,23 @@ class ADALINE:
             print()
             for a, b in zip(A, B):
                 count += 1
-                error_E = self.get_error(a, weight, desired_outputs[1])
-                if error_E != 0:
-                    weight = self.get_new_weight(a, weight, beta, error_E, 
-                                                pattern_rnd_int, weight_rnd_int)
-                    weight_count += 1
-                    print(f'after A{count}')
-                    break
+                if a is not None:
+                    error_E = self.get_error(a, weight, desired_outputs[0])
+                    if error_E != 0:
+                        weight = self.get_new_weight(a, weight, beta, error_E, 
+                                                    pattern_rnd_int, weight_rnd_int)
+                        weight_count += 1
+                        print(f'after A{count}')
+                        break
 
-                error_E = self.get_error(b, weight, desired_outputs[0])
-                if error_E != 0:
-                    weight = self.get_new_weight(b, weight, beta, error_E, 
-                                                pattern_rnd_int, weight_rnd_int)
-                    weight_count += 1
-                    print(f'after B{count}')
-                    break
+                if b is not None:
+                    error_E = self.get_error(b, weight, desired_outputs[1])
+                    if error_E != 0:
+                        weight = self.get_new_weight(b, weight, beta, error_E, 
+                                                    pattern_rnd_int, weight_rnd_int)
+                        weight_count += 1
+                        print(f'after B{count}')
+                        break
             else:
                 restart = False
                 print('finished')
@@ -66,8 +76,13 @@ class ADALINE:
 # Example from "Understanding Neural Networks, Vol 1: Basic Networks"
 # by Maureen Caudill and Charles Butler
 A = [(0.3,0.7),(0.4,0.9),(0.5,0.5),(0.7,0.3)]
+
 B = [(-0.6,0.3),(-0.4,-0.2),(0.3,-0.4),(-0.2,-0.8)]
-weight = (-0.6,0.8)       
+# B = [(-0.6,0.3),(-0.4,-0.2),(0.3,-0.4),(-0.2,-0.8),(0.6,-0.2)]
+
+weight = (-0.6, 0.8) 
+# weight = (-0.7, 1.5)       
+
 beta = 0.5
 
 ADALINE(A, B, weight, beta, 2, 1)
