@@ -37,9 +37,9 @@ class ADALINE:
             else:
                 restart = False
                 print('finished')
-                exit(1)
+                exit(0)
         print('Reached max_iter')
-        exit(0)
+        exit(1)
 
     def get_error(self, pattern, weight, desired_output):
         net_input_I = self.dot_product(pattern, weight)
